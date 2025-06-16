@@ -3,7 +3,6 @@ import 'dart:convert';
 
 Category categoryFromJson(String str) => Category.fromJson(json.decode(str));
 
-String categoryToJson(Category data) => json.encode(data.toJson());
 
 class Category {
   final String status;
@@ -22,11 +21,6 @@ class Category {
     data: Data.fromJson(json["data"]),
   );
 
-  Map<String, dynamic> toJson() => {
-    "status": status,
-    "message": message,
-    "data": data.toJson(),
-  };
 }
 
 class Data {
@@ -40,9 +34,6 @@ class Data {
     items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
   );
 
-  Map<String, dynamic> toJson() => {
-    "items": List<dynamic>.from(items.map((x) => x.toJson())),
-  };
 }
 
 class Item {
@@ -62,9 +53,4 @@ class Item {
     name: json["name"],
   );
 
-  Map<String, dynamic> toJson() => {
-    "_id": id,
-    "slug": slug,
-    "name": name,
-  };
 }

@@ -6,7 +6,6 @@ import 'dart:convert';
 
 StorySearch searchFromJson(String str) => StorySearch.fromJson(jsonDecode(str));
 
-String searchToJson(StorySearch data) => json.encode(data.toJson());
 
 class StorySearch {
   String status;
@@ -18,7 +17,6 @@ class StorySearch {
   factory StorySearch.fromJson(Map<String, dynamic> json) =>
       StorySearch(status: json["status"], message: json["message"], data: Data.fromJson(json["data"]));
 
-  Map<String, dynamic> toJson() => {"status": status, "message": message, "data": data.toJson()};
 }
 
 class Data {
@@ -56,16 +54,6 @@ class Data {
     appDomainCdnImage: json["APP_DOMAIN_CDN_IMAGE"] ?? '',
   );
 
-  Map<String, dynamic> toJson() => {
-    "seoOnPage": seoOnPage.toJson(),
-    "breadCrumb": List<dynamic>.from(breadCrumb.map((x) => x.toJson())),
-    "titlePage": titlePage,
-    "items": List<dynamic>.from(items.map((x) => x.toJson())),
-    "params": params.toJson(),
-    "type_list": typeList,
-    "APP_DOMAIN_FRONTEND": appDomainFrontend,
-    "APP_DOMAIN_CDN_IMAGE": appDomainCdnImage,
-  };
 }
 
 class BreadCrumb {
@@ -78,7 +66,6 @@ class BreadCrumb {
   factory BreadCrumb.fromJson(Map<String, dynamic> json) =>
       BreadCrumb(name: json["name"], isCurrent: json["isCurrent"], position: json["position"]);
 
-  Map<String, dynamic> toJson() => {"name": name, "isCurrent": isCurrent, "position": position};
 }
 
 class Item {
@@ -129,19 +116,6 @@ class Item {
             : [],
   );
 
-  Map<String, dynamic> toJson() => {
-    "name": name,
-    "slug": slug,
-    "origin_name": List<dynamic>.from(originName.map((x) => x)),
-    "status": status,
-    "thumb_url": thumbUrl,
-    "sub_docquyen": subDocquyen,
-    "author": List<dynamic>.from(author.map((x) => x)),
-    "category": List<dynamic>.from(category.map((x) => x.toJson())),
-    "chapters": List<dynamic>.from(chapters.map((x) => x.toJson())),
-    "updatedAt": updatedAt.toIso8601String(),
-    "chaptersLatest": List<dynamic>.from(chaptersLatest.map((x) => x.toJson())),
-  };
 }
 
 class Category {
@@ -154,7 +128,6 @@ class Category {
   factory Category.fromJson(Map<String, dynamic> json) =>
       Category(id: json["id"], name: json["name"], slug: json["slug"]);
 
-  Map<String, dynamic> toJson() => {"id": id, "name": name, "slug": slug};
 }
 
 class Chapter {
@@ -170,11 +143,6 @@ class Chapter {
             ? List<ChaptersLatest>.from(json["server_data"].map((x) => ChaptersLatest.fromJson(x)))
             : [],
   );
-
-  Map<String, dynamic> toJson() => {
-    "server_name": serverName,
-    "server_data": List<dynamic>.from(serverData.map((x) => x.toJson())),
-  };
 }
 
 class ChaptersLatest {
@@ -197,12 +165,6 @@ class ChaptersLatest {
     chapterApiData: json["chapter_api_data"],
   );
 
-  Map<String, dynamic> toJson() => {
-    "filename": filename,
-    "chapter_name": chapterName,
-    "chapter_title": chapterTitle,
-    "chapter_api_data": chapterApiData,
-  };
 }
 
 class Params {
@@ -231,14 +193,6 @@ class Params {
     pagination: Pagination.fromJson(json["pagination"]),
   );
 
-  Map<String, dynamic> toJson() => {
-    "type_slug": typeSlug,
-    "keyword": keyword,
-    "filterCategory": List<dynamic>.from(filterCategory.map((x) => x)),
-    "sortField": sortField,
-    "sortType": sortType,
-    "pagination": pagination.toJson(),
-  };
 }
 
 class Pagination {
@@ -261,12 +215,6 @@ class Pagination {
     pageRanges: json["pageRanges"],
   );
 
-  Map<String, dynamic> toJson() => {
-    "totalItems": totalItems,
-    "totalItemsPerPage": totalItemsPerPage,
-    "currentPage": currentPage,
-    "pageRanges": pageRanges,
-  };
 }
 
 class SeoOnPage {
@@ -292,23 +240,5 @@ class SeoOnPage {
     ogUrl: json["og_url"],
   );
 
-  Map<String, dynamic> toJson() => {
-    "og_type": ogType,
-    "titleHead": titleHead,
-    "descriptionHead": descriptionHead,
-    "og_image": List<dynamic>.from(ogImage.map((x) => x)),
-    "og_url": ogUrl,
-  };
 }
 
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
-}

@@ -5,8 +5,6 @@ part 'story_detail_model.g.dart';
 
 StoryDetail storyDetailFromJson(String str) => StoryDetail.fromJson(json.decode(str));
 
-String storyDetailToJson(StoryDetail data) => json.encode(data.toJson());
-
 @JsonSerializable()
 class StoryDetail {
   @JsonKey(name: "status")
@@ -20,7 +18,6 @@ class StoryDetail {
 
   factory StoryDetail.fromJson(Map<String, dynamic> json) => _$StoryDetailFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StoryDetailToJson(this);
 }
 
 @JsonSerializable()
@@ -46,7 +43,6 @@ class StoryData {
 
   factory StoryData.fromJson(Map<String, dynamic> json) => _$StoryDataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StoryDataToJson(this);
 }
 
 @JsonSerializable()
@@ -64,7 +60,6 @@ class BreadCrumb {
 
   factory BreadCrumb.fromJson(Map<String, dynamic> json) => _$BreadCrumbFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BreadCrumbToJson(this);
 }
 
 @JsonSerializable()
@@ -111,7 +106,6 @@ class StoryItem {
 
   factory StoryItem.fromJson(Map<String, dynamic> json) => _$StoryItemFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StoryItemToJson(this);
 }
 
 @JsonSerializable()
@@ -127,7 +121,6 @@ class Category {
 
   factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CategoryToJson(this);
 }
 
 @JsonSerializable()
@@ -141,7 +134,6 @@ class Chapter {
 
   factory Chapter.fromJson(Map<String, dynamic> json) => _$ChapterFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ChapterToJson(this);
 }
 
 @JsonSerializable()
@@ -164,7 +156,6 @@ class ServerDatum {
 
   factory ServerDatum.fromJson(Map<String, dynamic> json) => _$ServerDatumFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ServerDatumToJson(this);
 }
 
 @JsonSerializable()
@@ -178,7 +169,6 @@ class Params {
 
   factory Params.fromJson(Map<String, dynamic> json) => _$ParamsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ParamsToJson(this);
 }
 
 @JsonSerializable()
@@ -210,7 +200,6 @@ class SeoOnPage {
 
   factory SeoOnPage.fromJson(Map<String, dynamic> json) => _$SeoOnPageFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SeoOnPageToJson(this);
 }
 
 @JsonSerializable()
@@ -239,17 +228,5 @@ class SeoSchema {
 
   factory SeoSchema.fromJson(Map<String, dynamic> json) => _$SeoSchemaFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SeoSchemaToJson(this);
 }
 
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
-}

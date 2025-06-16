@@ -2,8 +2,6 @@ import 'dart:convert';
 
 CategoryStories categoryStoriesFromJson(String str) => CategoryStories.fromJson(json.decode(str));
 
-String categoryStoriesToJson(CategoryStories data) => json.encode(data.toJson());
-
 class CategoryStories {
   final String status;
   final String message;
@@ -14,7 +12,6 @@ class CategoryStories {
   factory CategoryStories.fromJson(Map<String, dynamic> json) =>
       CategoryStories(status: json["status"], message: json["message"], data: Data.fromJson(json["data"]));
 
-  Map<String, dynamic> toJson() => {"status": status, "message": message, "data": data.toJson()};
 }
 
 class Data {
@@ -49,16 +46,6 @@ class Data {
     appDomainCdnImage: json["APP_DOMAIN_CDN_IMAGE"],
   );
 
-  Map<String, dynamic> toJson() => {
-    "seoOnPage": seoOnPage.toJson(),
-    "breadCrumb": List<dynamic>.from(breadCrumb.map((x) => x.toJson())),
-    "titlePage": titlePage,
-    "items": List<dynamic>.from(items.map((x) => x.toJson())),
-    "params": params.toJson(),
-    "type_list": typeList,
-    "APP_DOMAIN_FRONTEND": appDomainFrontend,
-    "APP_DOMAIN_CDN_IMAGE": appDomainCdnImage,
-  };
 }
 
 class BreadCrumb {
@@ -75,8 +62,6 @@ class BreadCrumb {
     isCurrent: json["isCurrent"],
     position: json["position"],
   );
-
-  Map<String, dynamic> toJson() => {"name": name, "slug": slug, "isCurrent": isCurrent, "position": position};
 }
 
 class Item {
@@ -119,19 +104,6 @@ class Item {
             ? List<ChaptersLatest>.from(json["chapters_latest"].map((x) => ChaptersLatest.fromJson(x)))
             : [],
   );
-
-  Map<String, dynamic> toJson() => {
-    "_id": id,
-    "name": name,
-    "slug": slug,
-    "origin_name": List<dynamic>.from(originName.map((x) => x)),
-    "status": status,
-    "thumb_url": thumbUrl,
-    "sub_docquyen": subDocquyen,
-    "category": List<dynamic>.from(category.map((x) => x.toJson())),
-    "updatedAt": updatedAt.toIso8601String(),
-    "chaptersLatest": List<dynamic>.from(chaptersLatest.map((x) => x.toJson())),
-  };
 }
 
 class Category {
@@ -166,13 +138,6 @@ class ChaptersLatest {
     chapterTitle: json["chapter_title"] ?? '',
     chapterApiData: json["chapter_api_data"] ?? '',
   );
-
-  Map<String, dynamic> toJson() => {
-    "filename": filename,
-    "chapter_name": chapterName,
-    "chapter_title": chapterTitle,
-    "chapter_api_data": chapterApiData,
-  };
 }
 
 class Params {
@@ -201,14 +166,6 @@ class Params {
     pagination: Pagination.fromJson(json["pagination"]),
   );
 
-  Map<String, dynamic> toJson() => {
-    "type_slug": typeSlug,
-    "slug": slug,
-    "filterCategory": List<dynamic>.from(filterCategory.map((x) => x)),
-    "sortField": sortField,
-    "sortType": sortType,
-    "pagination": pagination.toJson(),
-  };
 }
 
 class Pagination {
@@ -231,12 +188,6 @@ class Pagination {
     pageRanges: json["pageRanges"],
   );
 
-  Map<String, dynamic> toJson() => {
-    "totalItems": totalItems,
-    "totalItemsPerPage": totalItemsPerPage,
-    "currentPage": currentPage,
-    "pageRanges": pageRanges,
-  };
 }
 
 class SeoOnPage {
@@ -254,10 +205,4 @@ class SeoOnPage {
     ogUrl: json["og_url"],
   );
 
-  Map<String, dynamic> toJson() => {
-    "og_type": ogType,
-    "titleHead": titleHead,
-    "og_image": List<dynamic>.from(ogImage.map((x) => x)),
-    "og_url": ogUrl,
-  };
 }
