@@ -17,7 +17,6 @@ class StoryDetail {
   StoryDetail({required this.status, required this.message, required this.data});
 
   factory StoryDetail.fromJson(Map<String, dynamic> json) => _$StoryDetailFromJson(json);
-
 }
 
 @JsonSerializable()
@@ -42,7 +41,6 @@ class StoryData {
   });
 
   factory StoryData.fromJson(Map<String, dynamic> json) => _$StoryDataFromJson(json);
-
 }
 
 @JsonSerializable()
@@ -59,7 +57,6 @@ class BreadCrumb {
   BreadCrumb({required this.name, this.slug, required this.position, this.isCurrent});
 
   factory BreadCrumb.fromJson(Map<String, dynamic> json) => _$BreadCrumbFromJson(json);
-
 }
 
 @JsonSerializable()
@@ -105,7 +102,6 @@ class StoryItem {
   });
 
   factory StoryItem.fromJson(Map<String, dynamic> json) => _$StoryItemFromJson(json);
-
 }
 
 @JsonSerializable()
@@ -120,7 +116,6 @@ class Category {
   Category({required this.id, required this.name, required this.slug});
 
   factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
-
 }
 
 @JsonSerializable()
@@ -133,7 +128,6 @@ class Chapter {
   Chapter({required this.serverName, required this.serverData});
 
   factory Chapter.fromJson(Map<String, dynamic> json) => _$ChapterFromJson(json);
-
 }
 
 @JsonSerializable()
@@ -155,7 +149,6 @@ class ServerDatum {
   });
 
   factory ServerDatum.fromJson(Map<String, dynamic> json) => _$ServerDatumFromJson(json);
-
 }
 
 @JsonSerializable()
@@ -168,7 +161,6 @@ class Params {
   Params({required this.slug, required this.crawlCheckUrl});
 
   factory Params.fromJson(Map<String, dynamic> json) => _$ParamsFromJson(json);
-
 }
 
 @JsonSerializable()
@@ -199,7 +191,6 @@ class SeoOnPage {
   });
 
   factory SeoOnPage.fromJson(Map<String, dynamic> json) => _$SeoOnPageFromJson(json);
-
 }
 
 @JsonSerializable()
@@ -227,6 +218,4 @@ class SeoSchema {
   });
 
   factory SeoSchema.fromJson(Map<String, dynamic> json) => _$SeoSchemaFromJson(json);
-
 }
-
