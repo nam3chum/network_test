@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:networking_test/test2/service/story_service.dart';
 import '../model/genre_model.dart';
 import '../service/genre_service.dart';
-
 
 class GenreManagementScreen extends StatefulWidget {
   const GenreManagementScreen({super.key});
@@ -29,8 +29,7 @@ class GenreManagementScreenState extends State<GenreManagementScreen> {
         isLoading = false;
       });
     } catch (e) {
-      setState(() => isLoading = false);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error loading genres: $e')));
+      print('Error loading genres: $e');
     }
   }
 
@@ -38,9 +37,19 @@ class GenreManagementScreenState extends State<GenreManagementScreen> {
     try {
       await GenreService.deleteGenre(id);
       _loadGenres();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Genre deleted successfully')));
+      print('Genre deleted successfully');
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error deleting genre: $e')));
+      print('deleting genre: $e');
+    }
+  }
+
+  Future<void> removeGenreFromStories(String id) async {
+    final listStory = await StoryService.getStories();
+    for (final story in listStory) {
+      if (story.genreId.contains(id)) {
+        final updatedGenreId = story.genreId.where((e) => e != id).toList();
+        await StoryService.patchStoryGenre(story.id, updatedGenreId);
+      }
     }
   }
 
@@ -94,6 +103,7 @@ class GenreManagementScreenState extends State<GenreManagementScreen> {
                                           onPressed: () {
                                             Navigator.pop(context);
                                             _deleteGenre(genre.id);
+                                            removeGenreFromStories(genre.id);
                                           },
                                           style: TextButton.styleFrom(foregroundColor: Colors.red),
                                           child: Text('Delete'),
@@ -150,7 +160,6 @@ class GenreFormScreenState extends State<GenreFormScreen> {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
-
     try {
       final genre = Genre(id: widget.genre?.id ?? '', name: _nameController.text);
 
@@ -160,7 +169,6 @@ class GenreFormScreenState extends State<GenreFormScreen> {
         await GenreService.updateGenre(widget.genre!.id, genre);
       }
 
-      Navigator.pop(context, true);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Genre saved successfully')));
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error saving genre: $e')));
@@ -177,7 +185,11 @@ class GenreFormScreenState extends State<GenreFormScreen> {
         actions: [
           TextButton(
             style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.lightBlue)),
-            onPressed: _isLoading ? null : _saveGenre,
+            onPressed: () {
+              _isLoading ? null : _saveGenre();
+
+              Navigator.pop(context);
+            },
             child: Text('SAVE', style: TextStyle(color: Colors.white)),
           ),
         ],

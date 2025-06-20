@@ -10,7 +10,7 @@ class GenreStoryListScreen extends StatefulWidget {
   final String genreId;
   final String genreName;
 
-  const GenreStoryListScreen({super.key, required this.genreId,required this.genreName});
+  const GenreStoryListScreen({super.key, required this.genreId, required this.genreName});
 
   @override
   State<StatefulWidget> createState() {
@@ -20,8 +20,9 @@ class GenreStoryListScreen extends StatefulWidget {
 
 class GenreStoryListScreenState extends State<GenreStoryListScreen> {
   List<Genre> listGenre = [];
-   List<Story> listStory = [];
+  List<Story> listStory = [];
   bool isLoading = false;
+
   Future<void> loadGenres() async {
     final genres = await GenreService.getGenres();
     setState(() {
@@ -41,16 +42,22 @@ class GenreStoryListScreenState extends State<GenreStoryListScreen> {
       });
     } catch (e) {
       setState(() {
-        isLoading = false;
+        if (mounted) {
+          setState(() {
+            isLoading = false;
+          });
+        }
       });
     }
   }
+
   @override
   void initState() {
     super.initState();
     loadGenres();
     loadStories();
   }
+
   @override
   Widget build(BuildContext context) {
     final List<Story> filteredStories =
@@ -63,8 +70,8 @@ class GenreStoryListScreenState extends State<GenreStoryListScreen> {
         itemBuilder: (context, index) {
           final story = filteredStories[index];
           return InkWell(
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => StoryDetailPage(id: story.id),));
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => StoryDetailPage(id: story.id)));
             },
             child: _buildStoryItem(story, context),
           );
@@ -79,50 +86,55 @@ Widget _buildStoryItem(Story story, BuildContext context) {
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     elevation: 4,
     margin: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(12), bottomLeft: Radius.circular(12)),
-            child: Image.network(story.imgUrl, width: 120, height: 180, fit: BoxFit.cover,errorBuilder: (context, error, stackTrace) {
+    child: Row(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(12), bottomLeft: Radius.circular(12)),
+          child: Image.network(
+            story.imgUrl,
+            width: 120,
+            height: 180,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
               return Container(
                 width: 120,
                 height: 180,
                 color: Colors.grey[300],
                 child: const Icon(Icons.broken_image, size: 40, color: Colors.grey),
               );
-            },),
+            },
           ),
-          // Nội dung truyện
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    story.name,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 6),
-                  Text('Tác giả: ${story.author}', style: TextStyle(fontSize: 13, color: Colors.grey[700])),
-                  SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Icon(Icons.menu_book, size: 14, color: Colors.grey),
-                      SizedBox(width: 4),
-                      Text('${story.numberOfChapter} chương', style: TextStyle(fontSize: 12)),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Text(story.originName,style: TextStyle(fontSize: 13),)
-                ],
-              ),
+        ),
+        // Nội dung truyện
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  story.name,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 6),
+                Text('Tác giả: ${story.author}', style: TextStyle(fontSize: 13, color: Colors.grey[700])),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Icon(Icons.menu_book, size: 14, color: Colors.grey),
+                    SizedBox(width: 4),
+                    Text('${story.numberOfChapter} chương', style: TextStyle(fontSize: 12)),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Text(story.originName, style: TextStyle(fontSize: 13)),
+              ],
             ),
           ),
-        ],
-
+        ),
+      ],
     ),
   );
 }

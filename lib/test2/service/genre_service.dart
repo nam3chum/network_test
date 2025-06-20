@@ -17,6 +17,7 @@ class GenreService {
     }
   }
 
+
   static Future<Genre> createGenre(Genre genre) async {
     final response = await http.post(
       Uri.parse(genreBaseUrl),

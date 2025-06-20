@@ -49,4 +49,17 @@ class StoryService {
       throw Exception('Failed to delete story');
     }
   }
+
+  static Future<void> patchStoryGenre(String storyId, List<String> newGenreIds) async {
+    final url = Uri.parse('$baseUrl/$storyId');
+    final response = await http.patch(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({'genreId': newGenreIds}),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to patch genreId in story $storyId');
+    }
+  }
 }

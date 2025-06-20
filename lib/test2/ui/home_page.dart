@@ -51,7 +51,6 @@ class HomePageState extends State<HomePage> {
     }
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -148,20 +147,28 @@ class HomePageState extends State<HomePage> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.only(topLeft: Radius.circular(12), bottomLeft: Radius.circular(12)),
-            child: Image.network(
-              story.imgUrl,
-              width: 120,
-              height: 180,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  width: 120,
-                  height: 180,
-                  color: Colors.grey[300],
-                  child: const Icon(Icons.broken_image, size: 40, color: Colors.grey),
-                );
-              },
-            ),
+            child:
+                story.imgUrl.trim().isNotEmpty
+                    ? Image.network(
+                      story.imgUrl,
+                      width: 120,
+                      height: 180,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          width: 120,
+                          height: 180,
+                          color: Colors.grey[300],
+                          child: const Icon(Icons.broken_image, size: 40, color: Colors.grey),
+                        );
+                      },
+                    )
+                    : Container(
+                      width: 120,
+                      height: 180,
+                      color: Colors.grey[300],
+                      child: const Icon(Icons.image, size: 40, color: Colors.grey),
+                    ),
           ),
           // Nội dung truyện
           Expanded(

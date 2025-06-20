@@ -36,8 +36,7 @@ class StoryManagementScreenState extends State<StoryManagementScreen> {
         isLoading = false;
       });
     } catch (e) {
-      setState(() => isLoading = false);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error loading data: $e')));
+      print('Error loading data: $e');
     }
   }
 
@@ -45,9 +44,9 @@ class StoryManagementScreenState extends State<StoryManagementScreen> {
     try {
       await StoryService.deleteStory(id);
       _loadData();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Story deleted successfully')));
+      print('Story deleted successfully');
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error deleting story: $e')));
+      print('Error deleting story: $e');
     }
   }
 
@@ -234,12 +233,9 @@ class StoryFormScreenState extends State<StoryFormScreen> {
         await StoryService.updateStory(widget.story!.id, story);
       }
 
-      Navigator.pop(context, true);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Story saved successfully')));
+      print('Story saved successfully');
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error saving story: $e')));
-    } finally {
-      setState(() => _isLoading = false);
+      print('saving story: $e');
     }
   }
 
@@ -250,7 +246,11 @@ class StoryFormScreenState extends State<StoryFormScreen> {
         title: Text(widget.story == null ? 'Add Story' : 'Edit Story'),
         actions: [
           TextButton(
-            onPressed: _isLoading ? null : _saveStory,
+            style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.blue)),
+            onPressed: () {
+              _isLoading ? null : _saveStory();
+              Navigator.pop(context);
+            },
             child: Text('SAVE', style: TextStyle(color: Colors.white)),
           ),
         ],
