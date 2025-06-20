@@ -38,8 +38,10 @@ class HomePageState extends State<HomePage> {
     setState(() => isLoading = true);
     try {
       final loaded = await StoryService.getStories();
+      final loadGenre = await GenreService.getGenres();
       print(" ${loaded.length} stories fetched");
       setState(() {
+        listGenre = loadGenre;
         listStory = loaded;
         isLoading = false;
       });
@@ -49,18 +51,11 @@ class HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> loadGenres() async {
-    final genres = await GenreService.getGenres();
-    setState(() {
-      listGenre = genres;
-    });
-  }
 
   @override
   void initState() {
     super.initState();
     loadStories();
-    loadGenres();
   }
 
   @override
