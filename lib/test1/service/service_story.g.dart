@@ -9,7 +9,7 @@ part of 'service_story.dart';
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations
 
 class _ApiStoryService implements ApiStoryService {
-  _ApiStoryService(this._dio, this.errorLogger) {
+  _ApiStoryService(this._dio, {this.baseUrl, this.errorLogger}) {
     baseUrl ??= 'https://684fbe32e7c42cfd1795bed4.mockapi.io/api/v1/story';
   }
 
