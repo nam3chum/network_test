@@ -25,6 +25,7 @@ dependencies:
   cached_network_image: ^3.3.0
   provider: any
   flutter_spinkit: any
+  permission_handler: ^11.0.1
 
 dev_dependencies:
   flutter_test:
