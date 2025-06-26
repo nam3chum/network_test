@@ -4,10 +4,9 @@ class DioClient {
   static Dio createDio() {
     final dio = Dio(
       BaseOptions(
-        baseUrl: 'https://684fbe32e7c42cfd1795bed4.mockapi.io/api/v1/story',
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 10),
-        sendTimeout: const Duration(seconds: 5),
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 2),
+        sendTimeout: const Duration(seconds: 1),
         headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
       ),
     );
@@ -16,9 +15,13 @@ class DioClient {
       LogInterceptor(request: true, requestBody: true, responseBody: true, responseHeader: false),
     );
 
+
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
+
+          //Gắn token tự động
+        //  options.headers["Authorization"]  = "Bearer $accessToken;
           return handler.next(options);
         },
         onResponse: (response, handler) {

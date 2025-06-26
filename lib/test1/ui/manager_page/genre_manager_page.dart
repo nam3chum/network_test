@@ -1,46 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:networking_test/retrofit_package/api_service/dio_client.dart';
 
 import '../../model/genre_model.dart';
-
-
-class ApiGenreService {
-  final Dio dio;
-
-  ApiGenreService(this.dio);
-
-  Future<List<Genre>> getGenres() async {
-    // Mock implementation
-    await Future.delayed(Duration(seconds: 1));
-    return [];
-  }
-
-  Future<void> deleteGenre(String id) async {
-    await Future.delayed(Duration(milliseconds: 500));
-  }
-
-  Future<void> addGenre(Genre genre) async {
-    await Future.delayed(Duration(milliseconds: 500));
-  }
-
-  Future<void> updateGenre(String id, Genre genre) async {
-    await Future.delayed(Duration(milliseconds: 500));
-  }
-}
-
-class ApiStoryService {
-  final Dio dio;
-
-  ApiStoryService(this.dio);
-
-  Future<List<dynamic>> getStories() async {
-    return [];
-  }
-
-  Future<void> patchStory(String id, List<String> genreIds) async {
-    await Future.delayed(Duration(milliseconds: 200));
-  }
-}
+import '../../service/service_genre.dart';
+import '../../service/service_story.dart';
 
 class GenreManagementScreen extends StatefulWidget {
   const GenreManagementScreen({super.key});
@@ -50,8 +14,8 @@ class GenreManagementScreen extends StatefulWidget {
 }
 
 class GenreManagementScreenState extends State<GenreManagementScreen> with TickerProviderStateMixin {
-  final genreService = ApiGenreService(Dio());
-  final storyService = ApiStoryService(Dio());
+  final genreService = ApiGenreService(DioClient.createDio());
+  final storyService = ApiStoryService(DioClient.createDio());
   List<Genre> genres = [];
   List<Genre> filteredGenres = [];
   bool isLoading = true;
@@ -95,24 +59,17 @@ class GenreManagementScreenState extends State<GenreManagementScreen> with Ticke
     try {
       // Mock data for demo
       await Future.delayed(Duration(seconds: 1));
-      final mockGenres = [
-        Genre(id: '1', name: 'Hành động'),
-        Genre(id: '2', name: 'Lãng mạn'),
-        Genre(id: '3', name: 'Khoa học viễn tưởng'),
-        Genre(id: '4', name: 'Kinh dị'),
-        Genre(id: '5', name: 'Hài hước'),
-        Genre(id: '6', name: 'Phiêu lưu'),
-      ];
+      final mockGenres = await genreService.getGenres();
 
       setState(() {
         genres = mockGenres;
         _filterGenres();
-        isLoading = false;
       });
       _animationController.forward();
     } catch (e) {
-      setState(() => isLoading = false);
       _showErrorSnackBar('Lỗi tải dữ liệu: $e');
+    } finally {
+      setState(() => isLoading = false);
     }
   }
 
@@ -133,7 +90,7 @@ class GenreManagementScreenState extends State<GenreManagementScreen> with Ticke
   Future<void> removeGenreFromStories(String id) async {
     final listStory = await storyService.getStories();
     for (final story in listStory) {
-      if (story.genreId?.contains(id) == true) {
+      if (story.genreId.contains(id) == true) {
         final updatedGenreId = story.genreId.where((e) => e != id).toList();
         await storyService.patchStory(story.id, updatedGenreId);
       }

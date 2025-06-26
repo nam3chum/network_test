@@ -11,7 +11,7 @@ class SkeletonList extends StatefulWidget {
     this.itemCount = 5,
     this.minOpacity = 0.5,
     this.maxOpacity = 1.0,
-    this.animationDuration = const Duration(milliseconds: 1200),
+    this.animationDuration = const Duration(milliseconds: 5000),
   });
 
   @override
