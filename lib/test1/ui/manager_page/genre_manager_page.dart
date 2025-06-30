@@ -74,9 +74,12 @@ class GenreManagementScreenState extends State<GenreManagementScreen> with Ticke
   }
 
   Future<void> _deleteGenre(String id, String name) async {
-    setState(() => isDeleting = true);
+    setState(() {
+      isLoading = true;
+      isDeleting = true;
+    });
     try {
-      await genreService.deleteGenre(id);
+      deleteGenre(id);
       await removeGenreFromStories(id);
       await _loadGenres();
       _showSuccessSnackBar('Đã xóa thể loại "$name" thành công');
@@ -87,12 +90,18 @@ class GenreManagementScreenState extends State<GenreManagementScreen> with Ticke
     }
   }
 
+  Future<void> deleteGenre(String id) async {
+    await Future.delayed(Duration(seconds: 10));
+    genreService.deleteGenre(id);
+  }
+
   Future<void> removeGenreFromStories(String id) async {
+    //
     final listStory = await storyService.getStories();
     for (final story in listStory) {
       if (story.genreId.contains(id) == true) {
         final updatedGenreId = story.genreId.where((e) => e != id).toList();
-        await storyService.patchStory(story.id, updatedGenreId);
+        await storyService.patchStory(story.id, {"genreId": updatedGenreId});
       }
     }
   }

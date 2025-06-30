@@ -27,5 +27,5 @@ abstract class ApiStoryService {
   Future<Story> updateStory(@Path("id") String id, @Body() Story story);
 
   @PATCH("/{id}")
-  Future<Story> patchStory(@Path("id") String id, @Query("genreId") List<String> genreId);
+  Future<Story> patchStory(@Path("id") String id, @Body() Map<String, dynamic> data);
 }

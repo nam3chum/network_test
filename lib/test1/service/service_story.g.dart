@@ -10,7 +10,7 @@ part of 'service_story.dart';
 
 class _ApiStoryService implements ApiStoryService {
   _ApiStoryService(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'https://684fbe32e7c42cfd1795bed4.mockapi.io/api/v1/story';
+    baseUrl ??= 'https://684fbe32e7c42cfd1795bed4.mockapi.io/api/v1/story/';
   }
 
   final Dio _dio;
@@ -160,11 +160,12 @@ class _ApiStoryService implements ApiStoryService {
   }
 
   @override
-  Future<Story> patchStory(String id, List<String> genreId) async {
+  Future<Story> patchStory(String id, Map<String, dynamic> data) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'genreId': genreId};
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
     final _options = _setStreamType<Story>(
       Options(method: 'PATCH', headers: _headers, extra: _extra)
           .compose(
